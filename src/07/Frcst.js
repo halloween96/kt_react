@@ -62,7 +62,7 @@ export default function Frcst() {
         <div className="flex justify-center items-center p-10">
           {dtTags}
         </div>
-        <div className="grid">
+        <div className="">
           {cnTags}
         </div>
       </div>

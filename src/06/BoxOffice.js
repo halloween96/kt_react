@@ -1,22 +1,40 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import Tailh1 from '../ui/Tailh1';
 import { RiMovie2Line } from "react-icons/ri";
 export default function BoxOffice() {
   const [trs, setTrs] = useState();
   const [boxlist, setBoslist] = useState([]);
-
-  useEffect(() => {
+  const [yesterday, setYesterday] = useState();
+  const seldate = useRef();
+  
+  //날짜 변경시 호출
+  const dateSel = ()=>{
+    getFetchData(seldate.current.value.replaceAll('-',''));
+  }
+  // const dateSel = (e)=>{
+  //   getFetchData(e.target.value.replaceAll('-',''));
+  // }
+  const getFetchData = (dt)=> {
     //환경변수값 가져오기
     let apikey = process.env.REACT_APP_BOXOFFICE;
     let url = "https://kobis.or.kr/kobisopenapi/webservice/rest/boxoffice/searchDailyBoxOfficeList.json?"
     url = url + `key=${apikey}`
-    url = url + `&targetDt=20231129`;
+    url = url + `&targetDt=${dt}`;
 
 
     fetch(url)
       .then(resp => resp.json())
       .then(data => setBoslist(data.boxOfficeResult.dailyBoxOfficeList))
       .catch(err => console.log(err))
+  }
+  useEffect(() => {
+    let yesterday = new Date();
+    yesterday.setDate(yesterday.getDate()-1);
+    yesterday = yesterday.toISOString().slice(0,10);
+    setYesterday(yesterday)
+    console.log(yesterday)
+    getFetchData(yesterday.replaceAll('-',''));
+    
   }, []);
   //boxlist 변경시 실행
   useEffect(() => {
@@ -27,27 +45,30 @@ export default function BoxOffice() {
         <td></td>
       </tr>)
       : setTrs(boxlist.map((item) =>
-        <tr key={item.movieCd} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-          <td className="px-6 py-4">
-            <span className='inline-flex justify-center items-center w-5 h-5 bg-slate-500 text-white rounded-md'>{item.rank}</span> {item.movieNm}
-          </td>
-          <td className="px-6 py-4 text-right">
-            {parseInt(item.salesAcc).toLocaleString('ko-KR')}원
-          </td>
-          <td className="px-6 py-4 text-right">
-            {parseInt(item.audiCnt).toLocaleString('ko-KR')}명
-          </td>
-          <td className="px-6 py-4">
-            {
-              (parseInt(item.rankInten) > 0)
-                ? <span className='text-red-600'>▲{item.rankInten}</span>
-                : (parseInt(item.rankInten) < 0)
-                  ? <span className='text-sky-600'>▼{Math.abs(item.rankInten)}</span>
-                  : "-"
-            }
-          </td>
-        </tr>
-      ))
+      <tr key={item.movieCd} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-100 hover:text-stone-950 hover:font-bold dark:hover:bg-gray-600">
+      <td className="px-6 py-4">
+        <span className="inline-flex justify-center items-center w-5 h-5 bg-slate-500 text-white rounded-md mx-2">
+          {item.rank}
+        </span> 
+        {item.movieNm}
+      </td>
+      <td className="px-6 py-4 text-right">
+        {parseInt(item.salesAmt).toLocaleString('ko-KR')}원
+      </td>
+      <td className="px-6 py-4 text-right">
+        {parseInt(item.audiCnt).toLocaleString('ko-KR')}명
+      </td>
+      <td className="px-6 py-4 ">
+        {
+          ( parseInt(item.rankInten) > 0 )
+          ?  <span className="text-red-600">▲{item.rankInten}</span>  
+          : ( parseInt(item.rankInten) < 0 ) 
+            ?  <span className="text-sky-600">▼{Math.abs(item.rankInten)}</span> 
+            : "-"
+        }
+      </td>
+    </tr>)
+      );
   }, [boxlist]);
   return (
     <div className='container mx-auto h-screen'>
@@ -55,6 +76,9 @@ export default function BoxOffice() {
         <div className='flex m-8'>
           <RiMovie2Line className='text-5xl text-cyan-400' />
           <Tailh1 title="박스오피스" />
+        </div>
+        <div>
+          <input type='date' max={yesterday} onChange={dateSel} ref={seldate}/>
         </div>
         <div className="relative overflow-x-auto w-3/4 shadow-md sm:rounded-lg">
           <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
