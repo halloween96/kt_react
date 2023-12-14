@@ -3,7 +3,7 @@ import Tailh1 from '../ui/Tailh1';
 import { RiMovie2Line } from "react-icons/ri";
 export default function BoxOffice() {
   const [trs, setTrs] = useState();
-  const [boxlist, setBoslist] = useState([]);
+  const [boxlist, setBoxlist] = useState([]);
   const [yesterday, setYesterday] = useState();
   const seldate = useRef();
   
@@ -24,7 +24,7 @@ export default function BoxOffice() {
 
     fetch(url)
       .then(resp => resp.json())
-      .then(data => setBoslist(data.boxOfficeResult.dailyBoxOfficeList))
+      .then(data => setBoxlist(data.boxOfficeResult.dailyBoxOfficeList))
       .catch(err => console.log(err))
   }
   useEffect(() => {
