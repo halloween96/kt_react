@@ -10,6 +10,8 @@ export default function Traffic() {
   const [selC1, setSelC1] = useState();   //선택된 대분류
   const [selC2, setSelC2] = useState();   //선택된 중분류
   const [detail, setDetail] = useState(); //상세 정보
+  //상세정보 보기 키순
+  const detailKey = ['사고건수','사망자수','중상자수','경상자수','부상신고자수']
   //데이터 불러오기
   const getData = async () => {
     let apikey = process.env.REACT_APP_APIKEY;
@@ -61,6 +63,16 @@ export default function Traffic() {
                                   item.사고유형_중분류 === selC2)
     tm = tm[0];
     console.log("detail", tm);
+    
+    if (tm === undefined) return;
+    tm = detailKey.map((k, idx) => <>
+                                      <div className="inline-flex justify-center w-full" key={`d1${idx}`}>
+                                      <div className="w-80 ps-10 p-2 my-1 bg-sky-700 text-white rounded-s-lg">{k}</div>
+                                      <div className="w-80 text-right pe-10 p-2 my-1 bg-orange-700 text-white rounded-e-lg">{parseInt(tm[k]).toLocaleString('ko-KR')}</div>
+                                      </div>
+                                      </>
+                                      )
+    setDetail(tm);
   },[selC2]);
   return (
     <div className='container mx-auto h-screen'>
@@ -69,6 +81,8 @@ export default function Traffic() {
         <div className="w-4/5 my-10">
           {c1 && <TrafficNav title={'대분류'} carr={c1} sel={selC1} setSel={setSelC1} />}
           {c2 && <TrafficNav title={'중분류'} carr={c2} sel={selC2} setSel={setSelC2} />}
+        </div>
+        <div>
           {detail}
         </div>
       </div>
