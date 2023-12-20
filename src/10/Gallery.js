@@ -7,7 +7,9 @@ import TailCard from "../ui/TailCard";
 export default function Gallery() {
     let apikey = process.env.REACT_APP_APIKEY;
     //fetch 데이터 저장
-    const [tdata, setTdata] = useState();
+    const [tdata, setTdata] = useState([]);
+    //화면에 재 랜더링
+    const [tags, setTags] = useState([]); 
     //키워드 입력
     const kwInput = useRef();
     const handleGetData = async (e) => {
@@ -41,6 +43,15 @@ export default function Gallery() {
     //tdata변경
     useEffect(() => {
         console.log("tdata=", tdata);
+        let tm = tdata.map((item, idx) =>
+                    <TailCard imgSrc={item.galWebImageUrl.replace('http', 'https')}
+                    key={`card${idx}`}
+                    title={item.galTitle}
+                    subtitle={item.galPhotographyLocation}
+                    tags={item.galSearchKeyword} />
+        );
+        setTags(tm);
+        console.log(tm)
     }, [tdata])
     return (
         <div className='container mx-auto h-screen'>
@@ -51,18 +62,14 @@ export default function Gallery() {
                     <MdTour className="text-4xl" />
                 </div>
                 <form className="shadow-md mt-4 w-1/2 flex justify-around">
-                    <input type="text" ref={kwInput} className="w-3/5 h-8 ps-3 m-3 border-b-2 border-sky-400 outline-none" placeholder="검색어" required></input>
+                    <input type="text" ref={kwInput} className="w-3/5 h-8 ps-3 m-3 border-b-2 border-sky-400 outline-none" placeholder="검색어" required />
                     <div>
                         <TailButton caption='검색' bcolor='sky' handleClick={(e) => handleGetData(e)} />
                         <TailButton caption='취소' bcolor='sky' handleClick={(e) => handleResetData(e)} />
                     </div>
                 </form>
-                <div>
-                    <TailCard
-                        imgSrc={"https://tong.visitkorea.or.kr/cms2/website/61/2952361.jpg"}
-                        title={"광안리해수욕장"}
-                        subtitle={"부산광역시 수영구 광안동"}
-                        tags={"광안리해수욕장, 부산광역시 수영구, 광안리해변, 바닷가, 바다, 부산 광안대교, 다이아몬드 브릿지, 별바다부산, 부산야간관광"} />
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 w-4/5">
+                    {tags}
                 </div>
             </div>
         </div>
