@@ -5,7 +5,7 @@ export default function TailCard({ imgSrc, title, subtitle, tags }) {
       <div className="p-2 w-auto">
         <img src={imgSrc} alt={title} />
       </div>
-      <div className="text-3xl text-sky-600 font-extrabold m-3">
+      <div className="text-xl text-sky-600 font-extrabold m-3">
         {title}
       </div>
       <div className="m-3 text-sky-400 font-bold">

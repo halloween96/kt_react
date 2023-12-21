@@ -66,10 +66,9 @@ export default function Traffic() {
     
     if (tm === undefined) return;
     tm = detailKey.map((k, idx) => <>
-                                      <div className="inline-flex justify-center w-full" key={`d1${idx}`}>
+                                      <div className="inline-flex justify-center w-full" key={`d1${idx}`}></div>
                                       <div className="w-80 ps-10 p-2 my-1 bg-sky-700 text-white rounded-s-lg">{k}</div>
                                       <div className="w-80 text-right pe-10 p-2 my-1 bg-orange-700 text-white rounded-e-lg">{parseInt(tm[k]).toLocaleString('ko-KR')}</div>
-                                      </div>
                                       </>
                                       )
     setDetail(tm);

@@ -55,7 +55,7 @@ export default function Gallery() {
     }, [tdata])
     return (
         <div className='container mx-auto h-screen'>
-            <div className='flex flex-col justify-top items-center w-full h-full my-8'>
+            <div className='flex flex-col items-center w-full h-full my-8'>
                 <div className="inline-flex items-center justify-between w-2/5 shadow-md ps-10 pe-10 p-2">
                     <MdOutlineTour className="text-4xl" />
                     <Tailh1 title={"한국 관광공사 사진 정보"} />
