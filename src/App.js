@@ -8,7 +8,8 @@
 //import Traffic from './09/Traffic';
 //import Gallery from './10/Gallery';
 //import Festval from './TEST/Festval';
-import Rmain from './12/Rmain';
+//import Rmain from './12/Rmain';
+import Frcst from './13/Frcst';
 import './App.css';
 
 function App() {
@@ -23,7 +24,8 @@ function App() {
     //<Traffic />
     //<Gallery />
     //<Festval />
-    <Rmain />
+    //<Rmain />
+    <Frcst />
   );
 }
 
