@@ -9,7 +9,8 @@
 //import Gallery from './10/Gallery';
 //import Festval from './TEST/Festval';
 //import Rmain from './12/Rmain';
-import Frcst from './13/Frcst';
+//import Frcst from './13/Frcst';
+import Ex01 from './90/Ex01';
 import './App.css';
 
 function App() {
@@ -25,7 +26,8 @@ function App() {
     //<Gallery />
     //<Festval />
     //<Rmain />
-    <Frcst />
+    //<Frcst />
+    <Ex01 />
   );
 }
 
